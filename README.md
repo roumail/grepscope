@@ -11,7 +11,7 @@ No keys are bound. These `<Plug>` mappings are provided for your vimrc:
 | Mapping | Mode | Action |
 | --- | --- | --- |
 | `<Plug>(fzf-utils-grepscope)` | n | `:GrepScope` |
-| `<Plug>(fzf-utils-grepscope-word)` | n, x | `:GrepScope` for the word under the cursor / selection |
+| `<Plug>(fzf-utils-grepscope-word)` | n, x | `:GrepScope` for the word under the cursor / the selection, matched literally |
 
 ```vim
 nmap <leader>rs <Plug>(fzf-utils-grepscope)
@@ -40,8 +40,29 @@ call fzf_utils#rg_scope#register('python', function('s:python_scopes'))
   `[label, rg-args]` pairs. Arguments ending in `/` are search paths, anything
   else is passed to ripgrep.
 - The type (`'python'`) matches the project-detect strategy name.
-- `fzf_utils#rg_scope#invoke(label [, pattern])` greps a scope without the menu,
-  for mappings.
+
+## Mapping a single scope
+
+To grep one scope without the menu:
+
+| Function | What it does |
+| --- | --- |
+| `fzf_utils#rg_scope#invoke(label [, pattern])` | Live grep in the scope `label`. |
+| `fzf_utils#rg_scope#invoke_word(label)` | Same, for the word under the cursor or, in visual mode, the selection. |
+| `fzf_utils#rg_scope#word_pattern()` | That word / selection as a pattern: regex characters escaped, wrapped in `\b`. |
+
+Both look the scope up when they are called, not when the mapping is made. So
+you can define mappings straight away, for example in an ftplugin, even though
+project-detect only names the project at `VimEnter`. Where the current project
+has no such scope (or there is no project), they print
+`GrepScope: no scope "<label>" for this project` and do nothing else.
+
+```vim
+" ~/.vim/ftplugin/python/keymaps.vim
+nnoremap <buffer> <leader>rp <Cmd>call fzf_utils#rg_scope#invoke('project python')<CR>
+nnoremap <buffer> gw <Cmd>call fzf_utils#rg_scope#invoke_word('project python')<CR>
+xnoremap <buffer> gw <Cmd>call fzf_utils#rg_scope#invoke_word('project python')<CR>
+```
 
 For a complete setup (pyproject.toml detection plus these scopes), see
 [`custom/plugins/fzf/grepscope.vim`](https://github.com/roumail/dotfiles/blob/main/vim-rc/custom/plugins/fzf/grepscope.vim)

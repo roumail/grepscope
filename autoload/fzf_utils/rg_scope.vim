@@ -91,3 +91,29 @@ function! fzf_utils#rg_scope#run(...) abort
         \ 'sink': function('s:rg_scope_sink')
         \ }))
 endfunction
+
+" The selection in visual mode, else the word under the cursor, as a ripgrep
+" regex with word boundaries. Regex characters in it are escaped, so it matches
+" literally (live grep starts in regex mode).
+function! fzf_utils#rg_scope#word_pattern() abort
+  let l:mode = mode()
+  if l:mode =~# "^[vV\<C-v>]"
+    if exists('*getregion')
+      let l:text = join(getregion(getpos('v'), getpos('.'), {'type': l:mode}), "\n")
+    else
+      let l:save = [getreg('"'), getregtype('"')]
+      normal! y
+      let l:text = getreg('"')
+      call setreg('"', l:save[0], l:save[1])
+    endif
+    execute "normal! \<Esc>"
+  else
+    let l:text = expand('<cword>')
+  endif
+  return '\b' . escape(l:text, '\.^$*+?()[]{}|') . '\b'
+endfunction
+
+" Grep a scope for the word under the cursor / the selection, without the menu
+function! fzf_utils#rg_scope#invoke_word(scope_name) abort
+  call fzf_utils#rg_scope#invoke(a:scope_name, fzf_utils#rg_scope#word_pattern())
+endfunction

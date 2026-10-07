@@ -22,5 +22,5 @@ command! -nargs=* GrepScope call fzf_utils#rg_scope#run(<f-args>)
 " <Plug> mappings; no keys are bound here (see README)
 nnoremap <silent> <Plug>(fzf-utils-grepscope) <Cmd>GrepScope<CR>
 " The word under the cursor / the selection, with word boundaries
-nnoremap <silent> <Plug>(fzf-utils-grepscope-word) <Cmd>execute 'GrepScope' '\b' . expand('<cword>') . '\b'<CR>
-xnoremap <silent> <Plug>(fzf-utils-grepscope-word) y:<C-u>execute 'GrepScope' '\b' . getreg('"') . '\b'<CR>
+nnoremap <silent> <Plug>(fzf-utils-grepscope-word) <Cmd>call fzf_utils#rg_scope#run(fzf_utils#rg_scope#word_pattern())<CR>
+xnoremap <silent> <Plug>(fzf-utils-grepscope-word) <Cmd>call fzf_utils#rg_scope#run(fzf_utils#rg_scope#word_pattern())<CR>

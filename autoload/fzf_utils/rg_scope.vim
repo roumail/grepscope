@@ -11,18 +11,9 @@ function! fzf_utils#rg_scope#types() abort
   return sort(keys(s:scopes))
 endfunction
 
-" The project type from project-detect, or '' when it is not installed or
-" nothing matched
-function! s:project_type() abort
-  if empty(globpath(&rtp, 'autoload/project_detect.vim'))
-    return ''
-  endif
-  return project_detect#active()
-endfunction
-
 " [label, rg-args] pairs of the detected project; empty when there is none
 function! s:project_scopes() abort
-  let l:type = s:project_type()
+  let l:type = project_detect#active()
   if empty(l:type) || !has_key(s:scopes, l:type) || !exists('g:project_name')
     return []
   endif

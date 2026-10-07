@@ -1,9 +1,20 @@
 " fzf-utils-grepscope: pick a project scope, then live grep in it with :Grep.
-" Requires junegunn/fzf and fzf-utils-rg (:Grep). Project names come from
-" project-detect when it is installed.
+" Requires fzf-utils-rg (:Grep) and project-detect (the project name and type).
 if exists('g:loaded_fzf_utils_grepscope')
   finish
 endif
+" Required plugins: without them nothing here is defined
+let s:missing = filter({
+      \ 'roumail/fzf-utils-rg': 'autoload/fzf_utils/live_grep.vim',
+      \ 'roumail/project-detect': 'autoload/project_detect.vim',
+      \ }, 'empty(globpath(&rtp, v:val))')
+if !empty(s:missing)
+  echohl WarningMsg
+  echomsg 'fzf-utils-grepscope: not loaded, requires ' . join(sort(keys(s:missing)), ', ')
+  echohl None
+  finish
+endif
+unlet s:missing
 let g:loaded_fzf_utils_grepscope = 1
 
 " GrepScope: Interactive scope picker for grep

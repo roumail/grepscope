@@ -70,8 +70,10 @@ in roumail/dotfiles.
 
 ## Install
 
-Requires [fzf](https://github.com/junegunn/fzf), fzf.vim, fzf-utils-rg and `rg`.
-project-detect is optional: without it there are no project scopes.
+Requires [fzf](https://github.com/junegunn/fzf), fzf.vim, fzf-utils-rg,
+project-detect and `rg`.
+If a required plugin is missing, Vim shows
+`fzf-utils-grepscope: not loaded, requires …` at startup and the plugin defines nothing.
 
 ```vim
 Plug 'junegunn/fzf'

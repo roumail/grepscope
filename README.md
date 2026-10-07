@@ -6,12 +6,18 @@ then runs a live `:Grep` (from
 `all` is always offered. With no project, or no scopes for it, `:GrepScope` is a
 plain `:Grep`.
 
-| Keys | Mode | Action |
-| --- | --- | --- |
-| `<leader>rs` | n | `:GrepScope` |
-| `<leader>rw` | n, x | `:GrepScope` for the word under the cursor / selection |
+No keys are bound. These `<Plug>` mappings are provided for your vimrc:
 
-`let g:fzf_utils_no_mappings = 1` skips them.
+| Mapping | Mode | Action |
+| --- | --- | --- |
+| `<Plug>(fzf-utils-grepscope)` | n | `:GrepScope` |
+| `<Plug>(fzf-utils-grepscope-word)` | n, x | `:GrepScope` for the word under the cursor / selection |
+
+```vim
+nmap <leader>rs <Plug>(fzf-utils-grepscope)
+nmap <leader>rw <Plug>(fzf-utils-grepscope-word)
+xmap <leader>rw <Plug>(fzf-utils-grepscope-word)
+```
 
 ## Scopes
 

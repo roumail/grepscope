@@ -19,15 +19,8 @@ let g:loaded_fzf_utils_grepscope = 1
 "   :GrepScope
 command! -nargs=* GrepScope call fzf_utils#rg_scope#run(<f-args>)
 
-" Key mappings; set g:fzf_utils_no_mappings = 1 to define your own instead
-if !get(g:, 'fzf_utils_no_mappings', 0)
-  " Scoped searches (Standard)
-  nnoremap <leader>rs <Cmd>GrepScope<CR>
-  " Search for word under cursor
-  " Word with boundaries
-  nnoremap <silent> <leader>rw <Cmd>execute 'GrepScope' '\b' . expand('<cword>') . '\b'<CR>
-  " Word without boundaries
-  " nnoremap <silent> <leader>rW <Cmd>execute 'GrepScope' expand('<cword>')<CR>
-  xnoremap <silent> <leader>rw y:<C-u>execute 'GrepScope' '\b' . getreg('"') . '\b'<CR>
-  " xnoremap <silent> <leader>rW y:<C-u>execute 'GrepScope' getreg('"')<CR>
-endif
+" <Plug> mappings; no keys are bound here (see README)
+nnoremap <silent> <Plug>(fzf-utils-grepscope) <Cmd>GrepScope<CR>
+" The word under the cursor / the selection, with word boundaries
+nnoremap <silent> <Plug>(fzf-utils-grepscope-word) <Cmd>execute 'GrepScope' '\b' . expand('<cword>') . '\b'<CR>
+xnoremap <silent> <Plug>(fzf-utils-grepscope-word) y:<C-u>execute 'GrepScope' '\b' . getreg('"') . '\b'<CR>

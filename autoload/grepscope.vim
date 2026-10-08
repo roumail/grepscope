@@ -2,12 +2,12 @@
 " returns ordered [label, rg-args] pairs.
 let s:scopes = {}
 
-function! fzf_utils#rg_scope#register(type, scopes) abort
+function! grepscope#register(type, scopes) abort
   let s:scopes[a:type] = a:scopes
 endfunction
 
 " Project types with registered scopes
-function! fzf_utils#rg_scope#types() abort
+function! grepscope#types() abort
   return sort(keys(s:scopes))
 endfunction
 
@@ -26,7 +26,7 @@ function! s:scope_list() abort
 endfunction
 
 " Scope label -> rg arguments
-function! fzf_utils#rg_scope#scopes() abort
+function! grepscope#scopes() abort
   let l:scopes = {}
   for [l:label, l:args] in s:scope_list()
     let l:scopes[l:label] = l:args
@@ -35,12 +35,12 @@ function! fzf_utils#rg_scope#scopes() abort
 endfunction
 
 function! s:rg_scope_sink(choice) abort
-  call fzf_utils#rg_scope#invoke(a:choice, s:current_search_pattern)
+  call grepscope#invoke(a:choice, s:current_search_pattern)
 endfunction
 
-function! fzf_utils#rg_scope#invoke(scope_name, ...) abort
+function! grepscope#invoke(scope_name, ...) abort
   let pattern = a:0 > 0 ? a:1 : ''
-  let scopes = fzf_utils#rg_scope#scopes()
+  let scopes = grepscope#scopes()
   if !has_key(scopes, a:scope_name)
     echo 'GrepScope: no scope "' . a:scope_name . '" for this project'
     return
@@ -56,7 +56,7 @@ function! fzf_utils#rg_scope#invoke(scope_name, ...) abort
   call call('fzf_utils#live_grep#window', args)
 endfunction
 
-function! fzf_utils#rg_scope#run(...) abort
+function! grepscope#run(...) abort
   " Validate arguments - only accept 0 or 1 argument
   if a:0 > 1
     echoerr 'Too many arguments. Usage: :GrepScope [pattern]'
@@ -86,7 +86,7 @@ endfunction
 " The selection in visual mode, else the word under the cursor, as a ripgrep
 " regex with word boundaries. Regex characters in it are escaped, so it matches
 " literally (live grep starts in regex mode).
-function! fzf_utils#rg_scope#word_pattern() abort
+function! grepscope#word_pattern() abort
   let l:mode = mode()
   if l:mode =~# "^[vV\<C-v>]"
     if exists('*getregion')
@@ -105,6 +105,6 @@ function! fzf_utils#rg_scope#word_pattern() abort
 endfunction
 
 " Grep a scope for the word under the cursor / the selection, without the menu
-function! fzf_utils#rg_scope#invoke_word(scope_name) abort
-  call fzf_utils#rg_scope#invoke(a:scope_name, fzf_utils#rg_scope#word_pattern())
+function! grepscope#invoke_word(scope_name) abort
+  call grepscope#invoke(a:scope_name, grepscope#word_pattern())
 endfunction

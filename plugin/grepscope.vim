@@ -1,5 +1,5 @@
 " grepscope: pick a project scope, then live grep in it with :Grep.
-" Requires fzf-utils-rg (:Grep, and through it fzf and fzf.vim) and
+" Requires fzf-utils (:Grep, and through it fzf, fzf.vim and rg) and
 " project-detect (the project name and type).
 if exists('g:loaded_grepscope')
   finish
@@ -13,9 +13,12 @@ function! s:init() abort
   let l:missing = filter({
         \ 'junegunn/fzf': 'g:loaded_fzf',
         \ 'junegunn/fzf.vim': 'g:loaded_fzf_vim',
-        \ 'roumail/fzf-utils-rg': 'g:loaded_fzf_utils_rg',
+        \ 'roumail/fzf-utils': 'g:loaded_fzf_utils',
         \ 'roumail/project-detect': 'g:loaded_project_detect',
         \ }, '!exists(v:val)')
+  if !executable('rg')
+    let l:missing.rg = 1
+  endif
   if !empty(l:missing)
     echohl WarningMsg
     echomsg 'grepscope: not loaded, requires ' . join(sort(keys(l:missing)), ', ')

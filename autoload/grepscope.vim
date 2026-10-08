@@ -54,7 +54,7 @@ function! grepscope#invoke(scope_name, ...) abort
 
   " Concatenate: [pattern?] + ['--'] + [scopes?]
   let args = pattern_part + ['--'] + scope
-  call call('fzf_utils#live_grep#window', args)
+  call call('fzf_utils#rg#live_grep#window', args)
 endfunction
 
 function! grepscope#run(...) abort
@@ -67,9 +67,9 @@ function! grepscope#run(...) abort
   " No project: a plain :Grep over everything
   if empty(s:project_scopes())
     if a:0 > 0
-      call fzf_utils#live_grep#window(a:1)
+      call fzf_utils#rg#live_grep#window(a:1)
     else
-      call fzf_utils#live_grep#window()
+      call fzf_utils#rg#live_grep#window()
     endif
     return
   endif

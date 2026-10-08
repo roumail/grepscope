@@ -2,7 +2,7 @@
 
 `:GrepScope [pattern]` shows a menu of search scopes for the current project,
 then runs a live `:Grep` (from
-[fzf-utils-rg](https://github.com/roumail/fzf-utils-rg)) in the one you pick.
+[fzf-utils](https://github.com/roumail/fzf-utils)) in the one you pick.
 `all` is always offered. With no project, or no scopes for it, `:GrepScope` is a
 plain `:Grep`.
 
@@ -70,7 +70,7 @@ in roumail/dotfiles.
 
 ## Install
 
-Requires [fzf](https://github.com/junegunn/fzf), fzf.vim, fzf-utils-rg,
+Requires [fzf](https://github.com/junegunn/fzf), fzf.vim, fzf-utils,
 project-detect and `rg`.
 Required plugins are checked once every plugin has loaded, so the order of your
 Plug lines doesn't matter. If one is missing, Vim shows
@@ -79,7 +79,7 @@ Plug lines doesn't matter. If one is missing, Vim shows
 ```vim
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'roumail/fzf-utils-rg'
+Plug 'roumail/fzf-utils'
 Plug 'roumail/project-detect'
 Plug 'roumail/grepscope'
 ```

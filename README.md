@@ -36,7 +36,7 @@ endfunction
 call grepscope#register('python', function('s:python_scopes'))
 ```
 
-- `scopes(name)` gets `g:project_name` and returns the menu entries in order, as
+- `scopes(name)` gets the project name (`project_detect#name()`) and returns the menu entries in order, as
   `[label, rg-args]` pairs. Arguments ending in `/` are search paths, anything
   else is passed to ripgrep.
 - The type (`'python'`) matches the project-detect strategy name.

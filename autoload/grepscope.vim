@@ -14,10 +14,11 @@ endfunction
 " [label, rg-args] pairs of the detected project; empty when there is none
 function! s:project_scopes() abort
   let l:type = project_detect#active()
-  if empty(l:type) || !has_key(s:scopes, l:type) || !exists('g:project_name')
+  let l:name = project_detect#name()
+  if empty(l:type) || empty(l:name) || !has_key(s:scopes, l:type)
     return []
   endif
-  return s:scopes[l:type](g:project_name)
+  return s:scopes[l:type](l:name)
 endfunction
 
 " 'all' plus the detected project's scopes, in menu order

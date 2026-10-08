@@ -72,7 +72,8 @@ in roumail/dotfiles.
 
 Requires [fzf](https://github.com/junegunn/fzf), fzf.vim, fzf-utils-rg,
 project-detect and `rg`.
-If a required plugin is missing, Vim shows
+Required plugins are checked once every plugin has loaded, so the order of your
+Plug lines doesn't matter. If one is missing, Vim shows
 `grepscope: not loaded, requires …` at startup and the plugin defines nothing.
 
 ```vim

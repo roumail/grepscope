@@ -28,9 +28,9 @@ function! s:init() abort
 
   " GrepScope: Interactive scope picker for grep
   "
-  " Presents a menu of search scopes: 'all', plus the scopes registered with
-  " grepscope#register() for the project type project-detect found.
-  " No scopes ship here.
+  " Presents a menu of search scopes: 'all', plus the project's code and tests
+  " as project-detect describes them, or the scopes registered with
+  " grepscope#register() for its type.
   "
   " Falls back to :Grep if no project is detected.
   "

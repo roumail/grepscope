@@ -21,24 +21,40 @@ xmap <leader>rw <Plug>(grepscope-word)
 
 ## Scopes
 
-The plugin ships no scopes. You register them per project type; the type and the
-project name come from [project-detect](https://github.com/roumail/project-detect):
+The scopes come from the project that
+[project-detect](https://github.com/roumail/project-detect) finds: its type, and
+where its code and tests live. For a Python project the menu is:
+
+| Scope | Searches |
+| --- | --- |
+| `all` | everything |
+| `project` | the package, e.g. `src/my_pkg/` |
+| `project python` | the package, Python files only |
+| `tests` | `tests/` |
+| `tests python` | `tests/`, Python files only |
+
+A Go project gets `project go`, `tests` (the `*_test.go` files) and `tests go`.
+A scope is left out when it would search the same files as one above it.
+
+### Your own scopes
+
+To choose the scopes of a project type yourself, register a function for it.
+It replaces the scopes above for that type:
 
 ```vim
 function! s:python_scopes(name) abort
   return [
         \ ['project', [a:name . '/']],
-        \ ['project python', [a:name . '/', '-tpy']],
-        \ ['tests', ['tests/']],
+        \ ['docs', ['docs/', '-tmd']],
         \ ]
 endfunction
 
 call grepscope#register('python', function('s:python_scopes'))
 ```
 
-- `scopes(name)` gets the project name (`project_detect#name()`) and returns the menu entries in order, as
-  `[label, rg-args]` pairs. Arguments ending in `/` are search paths, anything
-  else is passed to ripgrep.
+- `scopes(name)` gets the project name (`project_detect#name()`) and returns the
+  menu entries in order, as `[label, rg-args]` pairs. Arguments ending in `/`
+  are search paths, anything else is passed to ripgrep.
 - The type (`'python'`) matches the project-detect strategy name.
 
 ## Mapping a single scope
@@ -63,10 +79,6 @@ nnoremap <buffer> <leader>rp <Cmd>call grepscope#invoke('project python')<CR>
 nnoremap <buffer> gw <Cmd>call grepscope#invoke_word('project python')<CR>
 xnoremap <buffer> gw <Cmd>call grepscope#invoke_word('project python')<CR>
 ```
-
-For a complete setup (pyproject.toml detection plus these scopes), see
-[`custom/plugins/fzf/grepscope.vim`](https://github.com/roumail/dotfiles/blob/main/vim-rc/custom/plugins/fzf/grepscope.vim)
-in roumail/dotfiles.
 
 ## Install
 
